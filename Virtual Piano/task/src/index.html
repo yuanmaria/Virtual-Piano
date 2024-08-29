@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Virtual Piano</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<div class="container">
+    <div class="white-keys">
+        <kbd>A</kbd>
+        <kbd>S</kbd>
+        <kbd>D</kbd>
+        <kbd>F</kbd>
+        <kbd>G</kbd>
+        <kbd>H</kbd>
+        <kbd>J</kbd>
+    </div>
+    <div class="black-keys">
+        <kbd>W</kbd>
+        <kbd>E</kbd>
+        <kbd>T</kbd>
+        <kbd>Y</kbd>
+        <kbd id="text">U</kbd>
+    </div>
+</div>
+<script>
+    document.addEventListener("keydown", (event) => {
+        const keysArr = document.querySelectorAll("kbd");
+        const contentArr = [];
+        keysArr.forEach(e => contentArr.push(e.textContent));
+        contentArr.includes(event.key.toUpperCase()) ?
+            contentArr.forEach(e => {
+                if(event.key.toUpperCase() === `${e}`) {
+                    const audio = new Audio(`${e}.mp3`);
+                    audio.play();
+                }
+            })
+            : console.log("Warning");
+    });
+    let buttons = document.querySelectorAll('kbd');
+
+    let buttonW = null;
+    let buttonE = null;
+    let buttonT = null;
+
+    for (let button of buttons) {
+        let buttonText = button.textContent || button.innerText;
+        if (buttonText.toLowerCase() === 'w') {
+            buttonW = button
+        }
+
+        if (buttonText.toLowerCase() === 'e') {
+            buttonE = button
+        }
+
+        if (buttonText.toLowerCase() === 't') {
+            buttonT = button
+        }
+    }
+    let coordinateW = buttonW.getBoundingClientRect().right;
+    let coordinateE = buttonE.getBoundingClientRect().left;
+    let coordinateT = buttonT.getBoundingClientRect().left;
+
+    let distanceWE = Math.abs(coordinateW - coordinateE);
+    let distanceET = Math.abs(coordinateE - coordinateT);
+
+    let span = document.getElementById("text");
+    // if (distanceET < distanceWE + 1) {
+    //     span.innerHTML = `The distance between the "E" and "T" keys should be greater than it is now.`;
+    // }
+</script>
+</body>
+</html>
